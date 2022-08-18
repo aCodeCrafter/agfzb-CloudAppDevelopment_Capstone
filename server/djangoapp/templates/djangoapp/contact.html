@@ -12,17 +12,29 @@
     <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
 
 </head>
+<body>
+  <div class="navbar">
+    <nav>
+      <a href='/djangoapp'>Index</a> <a href="/djangoapp/about">About</a> <a href="/djangoapp/contact">Contact</a>
+    </nav>
+  </div>
 
-    <body>
-    <!--Add a nav bar here -->
-    <div class="navbar">
-      <nav>
-        <a href='/djangoapp'>Index</a> <a href="/djangoapp/about">About</a> <a href="/djangoapp/contact">Contact</a>
-      </nav>
-    </div>
-    <h3>Index Page for Car Dealership</h3>
-    <!--Add a dealer table here -->
-
-    </body>
+  <h3>Contact Info</h3>
+  <table>
+    <tr>
+      <td>Phone:</td>
+      <td>1-000-000-000</td>
+    </tr>
+    <tr>
+      <td>Email:</td>
+      <td><a href="mailto:car_dealership@example.com?subject=feedback">car_dealership@example.com</a></td>
+    </tr>
+    <tr>
+      <td>Address:</td>
+      <td>123 Park Place <br>
+        Know-Where, WI 00001</td>
+    </tr>
+  </table>
+</body>
 
 </html>
