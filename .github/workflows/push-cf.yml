@@ -42,5 +42,5 @@ jobs:
         run: ibmcloud cf apps
         shell: bash
       - name: Deploy manifest file
-        run: ibmcloud cf push ./$MANIFEST_NAME
+        run: ibmcloud cf push -f ./$MANIFEST_NAME
         shell: bash
