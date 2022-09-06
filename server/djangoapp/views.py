@@ -32,19 +32,39 @@ def contact(request):
     if request.method == 'GET':
         return render(request,'djangoapp/contact.html',context)
 
-
 # Create a `login_request` view to handle sign in request
-# def login_request(request):
-# ...
+def login_request(request):
+    if request.method == 'POST':
+        user = authenticate(request,
+        username=request.POST['username'],
+        password=request.POST['password'])
+
+        if user is not None:
+            login(request,user)
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        else:
+            print('Failed to authenticate user')
 
 # Create a `logout_request` view to handle sign out request
-# def logout_request(request):
-# ...
+def logout_request(request):
+    if request.method == 'POST':
+        logout(request)
+        return HttpResponseRedirect('/djangoapp/')
 
 # Create a `registration_request` view to handle sign up request
-# def registration_request(request):
-# ...
-
+def registration_request(request):
+    context = {}
+    if request.method == 'GET':
+        return render(request, 'djangoapp/registration.html', context)
+    elif request.method == 'POST':
+        User.objects.create_user(username=request.POST['username'],
+                                first_name=request.POST['firstname'],
+                                last_name=request.POST['lastname'],
+                                password=request.POST['password'])
+        login(request, authenticate(request,
+                                    username=request.POST['username'],
+                                    password=request.POST['password']))
+        return HttpResponseRedirect('/djangoapp/')
 # Update the `get_dealerships` view to render the index page with a list of dealerships
 def get_dealerships(request):
     context = {}

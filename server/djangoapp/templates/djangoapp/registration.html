@@ -6,6 +6,39 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
     <body>
-    <!--Add a registration form here -->
+      <nav class="navbar bg-light navbar-fluid">
+        <a href='/djangoapp'>Index</a> <a href="/djangoapp/about">About</a> <a href="/djangoapp/contact">Contact</a>
+        <div class="form-inline">
+
+          {% if user.is_authenticated %}
+          <form class="Login" action="/djangoapp/logout" method="post">{% csrf_token %}
+            <span>({{user.username}})</span>
+            <input type="submit" name="" class="btn form-control" value="Logout">
+          </form>
+          {% else %}
+          <form class="Login" action="/djangoapp/login" method="post">{% csrf_token %}
+            <input type="text" name="username" class="form-control">
+            <input type="password" name="password" class="form-control">
+            <input type="submit" name="" class="btn btn-primary form-control" value="Submit">
+            <a href="/djangoapp/registration">Sign Up</a>
+          </form>
+          {% endif %}
+        </div>
+      </nav>
+
+    <h1>Sign Up</h1>
+    <div class="form-group">
+      <form action="/djangoapp/register" method="post">{% csrf_token %}
+        <b><label for="username-input">Username:</label></b>
+        <input placeholder="Enter Username:" type="text" id="username-input" name="username" class="form-control" required>
+        <b><label for="firstname-input">First Name:</label></b>
+        <input placeholder="Enter First Name:" type="text" id="firstname-input" name="firstname" class="form-control" required>
+        <b><label for="lastname-input">Last Name:</label></b>
+        <input placeholder="Enter Last Name:" type="text" id="lastname-input" name="lastname" class="form-control" required>
+        <b><label for="password-input">Password:</label></b>
+        <input placeholder="Enter Password:" type="password" id="password-input" name="password" class="form-control" required>
+        <input type="submit" name="" class="btn btn-primary form-control">
+      </form>
+    </div>
     </body>
 </html>
