@@ -11,6 +11,52 @@
 
 </head>
     <body>
+      <nav class="navbar navbar-fluid">
+        <a href='/djangoapp'>Index</a> <a href="/djangoapp/about">About</a> <a href="/djangoapp/contact">Contact</a>
+        <div class="form-inline">
+
+          {% if user.is_authenticated %}
+          <form class="Login" action="/djangoapp/logout" method="post">{% csrf_token %}
+            <span>({{user.username}})</span>
+            <input type="submit" name="" class="btn form-control" value="Logout">
+          </form>
+          {% else %}
+          <form class="Login" action="/djangoapp/login" method="post">{% csrf_token %}
+            <input type="text" name="username" class="form-control">
+            <input type="password" name="password" class="form-control">
+            <input type="submit" name="" class="btn btn-primary form-control" value="Submit">
+            <a href="/djangoapp/register">Sign Up</a>
+          </form>
+          {% endif %}
+        </div>
+      </nav>
     <!--Add review form here -->
+    <h3>Add a review about {{dealer_id}} Car Dealership</h3>
+
+
+    <form class="" action="" method="post">{% csrf_token %}
+      <h5>Enter the Review Content:</h5>
+      <label for="name_input">Name:</label>
+      <input name="name" id="name" type="text"></textarea>
+      <textarea name="review" id="review" class="form-control" rows="8" cols="40"></textarea>
+      <label class="form-select" for="purchasecheck">Purchased Vehicle?</label>
+      <input type="checkbox" name="purchase" id="purchase" class="">
+      <!-- Figure out how to Collapse with bootstrap -->
+      <div class="form-group">
+        <label for="car">Vehicle Purchased (Model-Make-Year):</label>
+        <select class="form-select" name="car_id" id="car_id" required>
+          {% for car in cars %}
+            <option value="{{car.id}}">{{car.name}}-{{car.make.name}}-{{car.year|date:'Y'}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="purchase_date">Purchase Date:</label>
+        <input type="date" name="purchase_date" id="purchase_date">
+      </div>
+      <button class="btn btn-primary" type="submit" name="Submit">Submit</button>
+    </form>
+    </div>
+
     </body>
 </html>

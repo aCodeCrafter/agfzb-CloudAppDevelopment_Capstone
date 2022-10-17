@@ -43,8 +43,9 @@ def post_request(url, json_payload, **kwargs):
 def get_dealers_from_cf(url,**kwargs):
     dealer_json_resp = get_request(url=url,params=kwargs)
     results = []
-    if dealer_json_resp:
+    if dealer_json_resp and not dealer_json_resp['error']:
         for row in dealer_json_resp:
+            print(dealer_json_resp)
             results.append(
                 CarDealer(
                     address=row['address'],
@@ -67,35 +68,38 @@ def get_dealers_from_cf(url,**kwargs):
 # - Parse JSON results into a DealerView object list
 
 def analyze_review_sentiments(text):
-    apikey = 'QksJXRd60inex83sE5UfCH9RO20ZxRob9YPDIi6QL6he'
-    url = 'https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/9ddf93cc-63ec-4953-b996-961a2e4e9c99/v1/analyze?version=2022-04-07'
-    authenticator = IAMAuthenticator(apikey)
+    try:
+        apikey = 'QksJXRd60inex83sE5UfCH9RO20ZxRob9YPDIi6QL6he'
+        url = 'https://api.us-south.natural-language-understanding.watson.cloud.ibm.com/instances/9ddf93cc-63ec-4953-b996-961a2e4e9c99/v1/analyze?version=2022-04-07'
+        authenticator = IAMAuthenticator(apikey)
 
-    natural_language_understanding = NaturalLanguageUnderstandingV1(
-        version='2022-04-07',
-        authenticator=authenticator
-        )
+        natural_language_understanding = NaturalLanguageUnderstandingV1(
+            version='2022-04-07',
+            authenticator=authenticator
+            )
 
-    natural_language_understanding.set_service_url(url)
-    resp = natural_language_understanding.analyze(
-        text=text,
-        features = Features(sentiment=SentimentOptions(targets=['dealership']))
-        ).get_result()
+        natural_language_understanding.set_service_url(url)
+        resp = natural_language_understanding.analyze(
+            text=text,
+            features = Features(sentiment=SentimentOptions(targets=['dealership']))
+            ).get_result()
 
-##    score = resp['sentiment']['targets'][0]['score']
-    label = resp['sentiment']['targets'][0]['label']
-    if label in ('positive', 'negative', 'neutral'):
-        return label
-    else:
-        print(f'Network Error IBM Watson Returned unexpected value {str(label)}')
-        return ''
-
+    ##    score = resp['sentiment']['targets'][0]['score']
+        label = resp['sentiment']['targets'][0]['label']
+        if label in ('positive', 'negative', 'neutral'):
+            return label
+        else:
+            print(f'Network Error IBM Watson Returned unexpected value {str(label)}')
+            return ''
+    except:
+        print(f'Error trying to analyze {text}')
 def get_dealer_reviews_from_cf(url,**kwargs):
     reviews_json_resp = get_request(url=url,params=kwargs)
     results = []
-    if reviews_json_resp:
+    print(reviews_json_resp)
+    if reviews_json_resp and not reviews_json_resp['message']:
         for row in reviews_json_resp:
-            sentiment = analyze_review_sentiments(row['review'])
+            sentiment = '' #row['sentiment']
             if row['purchase'] == True:
                 results.append(
                     DealerReview(

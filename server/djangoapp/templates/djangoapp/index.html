@@ -12,7 +12,6 @@
     <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
 
 </head>
-
     <body>
     <!--Add a nav bar here -->
       <nav class="navbar navbar-fluid">
@@ -37,7 +36,29 @@
     <h3>Index Page for Car Dealership</h3>
     <p>Test For Push</p>
     <!--Add a dealer table here -->
-
+    <table class="table" id="table" data-filter-control="true">
+      <thead>
+        <th scope='col'>#</th>
+        <th scope='col'>Name</th>
+        <th scope='col'>City</th>
+        <th scope='col'>Address</th>
+        <th scope='col'>Zip</th>
+        <th data-field="state" data-filter-control="select">State</th>
+      </thead>
+      <tbody>
+        {% for dealer in dealerships %}
+        <tr>
+          <td>{{dealer.id}}</td> <td><a href="dealer/{{dealer.id}}">{{dealer.full_name}}</a></td>
+          <td>{{dealer.city}}</td> <td>{{dealer.address}}</td>
+          <td>{{dealer.zip}}</td> <td>{{dealer.state}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
     </body>
-
+    <script>
+      $(function() {
+        $('#table').bootstrapTable()
+      })
+    </script>
 </html>
