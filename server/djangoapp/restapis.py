@@ -43,7 +43,7 @@ def post_request(url, json_payload, **kwargs):
 def get_dealers_from_cf(url,**kwargs):
     dealer_json_resp = get_request(url=url,params=kwargs)
     results = []
-    if dealer_json_resp and not dealer_json_resp['error']:
+    if dealer_json_resp:
         for row in dealer_json_resp:
             print(dealer_json_resp)
             results.append(
@@ -97,7 +97,7 @@ def get_dealer_reviews_from_cf(url,**kwargs):
     reviews_json_resp = get_request(url=url,params=kwargs)
     results = []
     print(reviews_json_resp)
-    if reviews_json_resp and not reviews_json_resp['message']:
+    if reviews_json_resp:
         for row in reviews_json_resp:
             sentiment = '' #row['sentiment']
             if row['purchase'] == True:
