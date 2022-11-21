@@ -13,11 +13,25 @@
 
 </head>
 <body>
-  <div class="navbar">
-    <nav>
-      <a href='/djangoapp'>Index</a> <a href="/djangoapp/about">About</a> <a href="/djangoapp/contact">Contact</a>
-    </nav>
-  </div>
+  <nav class="navbar navbar-fluid">
+    <a href='/djangoapp'>Index</a> <a href="/djangoapp/about">About</a> <a href="/djangoapp/contact">Contact</a>
+    <div class="form-inline">
+
+      {% if user.is_authenticated %}
+      <form class="Login" action="/djangoapp/logout" method="post">{% csrf_token %}
+        <span>({{user.username}})</span>
+        <input type="submit" name="" class="btn form-control" value="Logout">
+      </form>
+      {% else %}
+      <form class="Login" action="/djangoapp/login" method="post">{% csrf_token %}
+        <input type="text" name="username" class="form-control">
+        <input type="password" name="password" class="form-control">
+        <input type="submit" name="" class="btn btn-primary form-control" value="Submit">
+        <a href="/djangoapp/register">Sign Up</a>
+      </form>
+      {% endif %}
+    </div>
+  </nav>
 
   <h3>Contact Info</h3>
   <table>
