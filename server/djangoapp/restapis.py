@@ -93,8 +93,8 @@ def analyze_review_sentiments(text):
             return ''
     except:
         print(f'Error trying to analyze {text}')
-def get_dealer_reviews_from_cf(url,**kwargs):
-    reviews_json_resp = get_request(url=url,params=kwargs)
+def get_dealer_reviews_from_cf(url,dealer_id,**kwargs):
+    reviews_json_resp = get_request(url=url+'?dealerId='+str(dealer_id))
     results = []
     print(reviews_json_resp)
     if reviews_json_resp:
