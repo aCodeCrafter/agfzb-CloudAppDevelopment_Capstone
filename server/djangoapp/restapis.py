@@ -99,9 +99,14 @@ def get_dealer_reviews_from_cf(url,dealer_id,**kwargs):
     reviews_json_resp = get_request(url=url+'?dealerId='+str(dealer_id))
     results = []
     print(reviews_json_resp)
-    if reviews_json_resp:
-        for row in reviews_json_resp:
-            sentiment = '' #row['sentiment']
+    if reviews_json_resp and 'message' not in reviews_json_resp.keys():
+        for row in reviews_json_resp['reviews']:
+            if row['sentiment'] != '':
+                sentiment = row['sentiment']
+            else:
+                sentiment = 'neutral'
+
+            print(row.keys())
             if row['purchase'] == True:
                 results.append(
                     DealerReview(
@@ -132,13 +137,15 @@ def get_dealer_reviews_from_cf(url,dealer_id,**kwargs):
                         id=row['id'],
                     )
                 )
-    return results
+        return {'results' : results}
+    else:
+        return {'error':'Internal Server Error'}
 # Create an `analyze_review_sentiments` method to call Watson NLU and analyze text
 # def analyze_review_sentiments(text):
 # - Call get_request() with specified arguments
 # - Get the returned sentiment label such as Positive or Negative
 
-def submit_review_to_cf(url, json_body, **kwargs):
+def submit_review_to_cf(url, json_bo0dy, **kwargs):
     json_resp = post_request(url=url, json_body=json_body, params=kwargs)
     if json_resp.status_code == 200:
         return True

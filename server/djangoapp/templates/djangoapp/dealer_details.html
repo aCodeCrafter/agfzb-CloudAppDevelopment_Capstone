@@ -36,9 +36,9 @@
       {% for review in reviews %}
       <div class="card" style="width: 20rem;">
         {% if review.sentiment == 'positive' %}
-          <img class="card-img-left" src="{{MEDIA_URL}}/emoji/positive.png">
+          <img class="card-img-left" style="max-width: 15%;" src="{{MEDIA_URL}}/emoji/positive.png">
         {% elif review.sentiment == 'negative' %}
-          <img class="card-img-left" src="{{MEDIA_URL}}/emoji/negative.png">
+          <img class="card-img-left" style="max-width: 15%;" src="{{MEDIA_URL}}/emoji/negative.png">
         {% else %}
           <img class="card-img-left" style="max-width: 15%;" src="{{MEDIA_URL}}/emoji/neutral.png">
         {% endif %}
